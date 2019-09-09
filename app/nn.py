@@ -15,22 +15,24 @@ class Flatten(nn.Module):
         return x.view(x.size()[0], -1)
 
 
-class Lenet(nn.Module):
+class CNN(nn.Module):
     """
-    LeNet-5 model for image classification.
+    The model used for inference.
     """
     def __init__(self):
-        super(Lenet, self).__init__()
+        super(CNN, self).__init__()
         self.arch = nn.Sequential(
-            nn.Conv2d(1, 6, kernel_size=5, stride=1),
+            nn.Conv2d(1, 32, kernel_size=5, stride=1),
             nn.MaxPool2d(2),
-            nn.Conv2d(6, 16, kernel_size=5, stride=1),
+            nn.Conv2d(32, 64, kernel_size=5, stride=1),
             nn.MaxPool2d(2),
+
             # 4x4 image
+
             Flatten(),
-            nn.Linear(16 * 4 * 4, 120),
-            nn.Linear(120, 84),
-            nn.Linear(84, 10),
+            nn.Linear(64 * 4 * 4, 512),
+            nn.Linear(512, 256),
+            nn.Linear(256, 10),
         )
 
     def forward(self, x):
@@ -47,7 +49,7 @@ def load_model(path):
     Returns:
         torch.nn.Module: The pre-trained network.
     """
-    model = Lenet()
+    model = CNN()
     model.load_state_dict(torch.load(path))
     model.eval()
     return model

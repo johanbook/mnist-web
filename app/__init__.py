@@ -5,6 +5,6 @@ from app.nn import load_model
 
 app = Flask(__name__, template_folder="../static/", static_folder="../static")
 cache = Cache(app, config={"CACHE_TYPE": "simple"})
-model = load_model("models/mnist_lenet.pt")
+model = load_model("models/mnist_beef2.pt")
 
 from app import routes
